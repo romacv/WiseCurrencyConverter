@@ -7,5 +7,6 @@
 
 protocol DataStore: AnyObject {
     var selectedElement: String? { get set }
+    var elements: [String: String] { get set }
     func updateData()
 }

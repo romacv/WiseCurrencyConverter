@@ -16,4 +16,16 @@ class OpenExchangeRatesManager: CurrencyConverterNetworkManager {
         completion(.success(amount*3.33))
     }
 
+    func availableCurrencies() async throws -> [String: String] {
+        let url = URL(string: "\(baseURL)/currencies.json")!
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String]
+        
+        guard let currencies = json, !currencies.isEmpty else {
+            throw NetworkError.parsingError
+        }
+        
+        return currencies
+    }
 }

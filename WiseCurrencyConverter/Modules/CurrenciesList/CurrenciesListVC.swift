@@ -8,17 +8,25 @@
 import UIKit
 
 protocol CurrenciesListVCProtocol: AnyObject {
-    
+    func refreshTable()
+    func showError(message: String)
 }
 
 final class CurrenciesListVC: UIViewController, CurrenciesListVCProtocol {
+    func refreshTable() {
+        tableView.reloadData()
+    }
     
-    var presenter: CurrenciesListPresenterProtocol!
+    func showError(message: String) {
+        
+    }
+    
+    
+    var presenter: CurrenciesListPresentable!
     
     // Step 1: Add a table view to your view controller's view
     
     private var tableView: UITableView!
-    private let items = ["1", "2", "3", "4"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +41,8 @@ final class CurrenciesListVC: UIViewController, CurrenciesListVCProtocol {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellReuseIdentifier")
         
         view.addSubview(tableView)
+        
+        presenter.fetchCurrencies()
     }
 }
 
@@ -41,14 +51,20 @@ final class CurrenciesListVC: UIViewController, CurrenciesListVCProtocol {
 extension CurrenciesListVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return presenter.itemsCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellReuseIdentifier", for: indexPath)
-        
-        // Configure the cell with the item at the corresponding index
-        cell.textLabel?.text = items[indexPath.row]
+        let items = presenter.items()
+                let keys = Array(items.keys)
+                
+                let currencyKey = keys[indexPath.row]
+                let currencyValue = items[currencyKey]
+                
+                cell.textLabel?.text = "\(currencyKey): \(currencyValue ?? "")"
+                
+                return cell
         
         return cell
     }
@@ -57,7 +73,7 @@ extension CurrenciesListVC: UITableViewDataSource {
 extension CurrenciesListVC: UITableViewDelegate {
         
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            presenter.didSelectItem(index: UInt(indexPath.row))
+            presenter.didSelectItem(index: Int(indexPath.row))
         }
     
 }

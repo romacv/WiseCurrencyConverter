@@ -17,4 +17,5 @@ protocol CurrencyConverterNetworkManager {
         amount: Double,
         completion: @escaping (Result<Double, Error>) -> Void
     )
+    func availableCurrencies() async throws -> [String: String]
 }

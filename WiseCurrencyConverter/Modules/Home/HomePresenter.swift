@@ -19,9 +19,10 @@ protocol HomePresentable<CurrencyValue>: AnyObject {
 
 final class HomePresenter: HomePresentable, DataStore {
     
+    
     typealias CurrencyValue = Double
     var selectedElement: String?
-    var currencies: [String] = []
+    var elements: [String : String] = [:]
     
     private weak var view: HomeView?
     private var router: HomeRoutable

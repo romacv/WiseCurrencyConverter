@@ -16,7 +16,12 @@ final class CurrenciesListBuilder {
         typealias T = String
         let view = CurrenciesListVC()
         let router = CurrenciesListRouter(view: view)
-        let presenter = CurrenciesListPresenter(view: view, router: router)
+        let networkManager = OpenExchangeRatesManager()
+        let presenter = CurrenciesListPresenter(
+            view: view,
+            router: router,
+            networkManager: networkManager
+        )
         presenter.dataStore = dataStore
         view.presenter = presenter
         
