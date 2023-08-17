@@ -10,20 +10,29 @@ import Foundation
 protocol CurrenciesListPresentable: AnyObject {
     func fetchCurrencies()
     func didSelectItem(index: Int)
-    func items() -> [String : String]
+    func items() -> [Currency]
     func itemsCount() -> Int
+    func didChangeSearchText(searchText: String)
+    func close()
 }
 
 final class CurrenciesListPresenter: CurrenciesListPresentable {
     
-    private weak var view: CurrenciesListVCProtocol?
-    private var router: CurrenciesListRouterProtocol
+    // MARK: - CurrenciesListPresentable Protocol Properties
+    
+    weak var dataStore: CurrencyModuleDataStore?
+    
+    // MARK: - Properties
+    
+    private weak var view: CurrenciesListView?
+    private var router: CurrenciesListRoutable
     private var networkManager: CurrencyConverterNetworkManager!
-    var dataStore: DataStore?
+    
+    // MARK: - Initialization
     
     init(
-        view: CurrenciesListVCProtocol,
-        router: CurrenciesListRouterProtocol,
+        view: CurrenciesListView,
+        router: CurrenciesListRoutable,
         networkManager: CurrencyConverterNetworkManager
     ) {
         self.view = view
@@ -31,30 +40,57 @@ final class CurrenciesListPresenter: CurrenciesListPresentable {
         self.networkManager = networkManager
     }
     
+    // MARK: - CurrenciesListPresentable Protocol Methods
+    
     func fetchCurrencies() {
         Task {
             do {
                 let currencies = try await networkManager.availableCurrencies()
-                dataStore?.elements = currencies
-                self.view?.refreshTable()
+                dataStore?.elements = currencies.sorted(by: { $0.currencyCode < $1.currencyCode })
+                dataStore?.filteredElements = dataStore?.elements ?? []
+                DispatchQueue.main.async {
+                    self.view?.refreshTable()
+                }
             } catch {
-                self.view?.showError(message: error.localizedDescription)
+                DispatchQueue.main.async {
+                    self.view?.showError(message: error.localizedDescription)
+                }
             }
         }
     }
     
     func didSelectItem(index: Int) {
-        dataStore?.selectedElement = "abc"
+        dataStore?.selectedElement = dataStore?.filteredElements[index]
         router.dismissList()
         dataStore?.updateData()
     }
     
-    func items() -> [String : String] {
-        return dataStore?.elements ?? [:]
+    func items() -> [Currency] {
+        return dataStore?.filteredElements ?? []
     }
     
     func itemsCount() -> Int {
-        return dataStore?.elements.keys.count ?? 0
+        return dataStore?.filteredElements.count ?? 0
+    }
+    
+    func didChangeSearchText(searchText: String) {
+        if searchText.isEmpty {
+            dataStore?.filteredElements = dataStore?.elements ?? []
+        }
+        else {
+            let lowercasedSearchText = searchText.lowercased()
+            dataStore?.filteredElements = dataStore?.elements.filter {
+                let lowercasedCurrencyCode = $0.currencyCode.lowercased()
+                let lowercasedCurrencyName = $0.currencyName.lowercased()
+                return lowercasedCurrencyCode.contains(lowercasedSearchText) ||
+                lowercasedCurrencyName.contains(lowercasedSearchText)
+            } ?? []
+        }
+        view?.refreshTable()
+    }
+    
+    func close() {
+        router.dismissList()
     }
 }
 

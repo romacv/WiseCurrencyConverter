@@ -6,7 +6,16 @@
 //
 
 protocol DataStore: AnyObject {
-    var selectedElement: String? { get set }
-    var elements: [String: String] { get set }
+    
+    // MARK: - Properties
+    
+    associatedtype E
+    var selectedElement: E? { get set }
+    var elements: [E] { get set }
+    var dataUpdated: (() -> Void)? { get set }
+
+    // MARK: - Methods
+    
     func updateData()
 }
+

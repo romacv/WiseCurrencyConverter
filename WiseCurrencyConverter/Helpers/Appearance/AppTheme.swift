@@ -13,8 +13,12 @@ struct AppTheme: ThemeProvider {
     private init() {}
     
     // Colors
+    var mainBackgroundColor: UIColor {
+        return .white
+    }
+    
     var enabledBackgroundColor: UIColor {
-        return UIColor(hue: 120/360, saturation: 1.0, brightness: 0.9, alpha: 1.0)
+        return UIColor(red: 50/255, green: 205/255, blue: 50/255, alpha: 1)
     }
     
     var disabledBackgroundColor: UIColor {
@@ -55,8 +59,11 @@ struct AppTheme: ThemeProvider {
     }
     
     var buttonFont: UIFont {
-        return UIFont.systemFont(ofSize: 17, weight: .medium)
+        return UIFont.systemFont(ofSize: 18, weight: .semibold)
     }
     
+    var symbolFont: UIFont {
+        return UIFont.systemFont(ofSize: 44, weight: .bold)
+    }
     
 }

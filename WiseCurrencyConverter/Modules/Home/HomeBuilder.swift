@@ -9,19 +9,18 @@ import UIKit
 
 final class HomeBuilder {
     
-    static func build(theme: ThemeProvider) -> HomeVC {
+    static func build() -> HomeVC {
         let view = HomeVC()
         let router = HomeRouter(view: view)
         let networkManager = OpenExchangeRatesManager()
+        let dataStore = CurrencyModuleDataStore()
         let presenter = HomePresenter(
             view: view,
             router: router,
             networkManager: networkManager
         )
+        presenter.dataStore = dataStore
         view.presenter = presenter
-        view.theme = theme
-        
         return view
     }
-    
 }

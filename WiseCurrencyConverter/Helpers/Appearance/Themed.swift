@@ -9,5 +9,5 @@ import Foundation
 
 protocol Themed {
     var theme: ThemeProvider { get set }
-    func applyTheme(theme: ThemeProvider)
+    func applyTheme()
 }

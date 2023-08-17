@@ -10,6 +10,7 @@ import UIKit
 protocol ThemeProvider {
     
     // Colors
+    var mainBackgroundColor: UIColor { get }
     var enabledBackgroundColor: UIColor { get }
     var disabledBackgroundColor: UIColor { get }
     var enabledTextColor: UIColor { get }
@@ -22,4 +23,5 @@ protocol ThemeProvider {
     var switcherFont: UIFont { get }
     var bodyFont: UIFont { get }
     var buttonFont: UIFont { get }
+    var symbolFont: UIFont { get }
 }

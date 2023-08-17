@@ -13,7 +13,30 @@ protocol CurrencyViewDelegate: AnyObject {
 
 class CurrencyInputView: UIView, Themed {
     
-    // MARK: - UI Elements
+    // MARK: - Themed Protocol Properties
+    
+    var theme: ThemeProvider = AppTheme.shared
+    
+    // MARK: - Properties
+    
+    var arrowTappedHandler: (() -> Void)?
+    var numberValueChangedHandler: ((Double, String) -> Void)?
+    var textFieldAccessibilityIdentifier: String? {
+        didSet {
+            textField.accessibilityIdentifier = textFieldAccessibilityIdentifier
+        }
+    }
+    var currencyStackViewAccessibilityIdentifier: String? {
+        didSet {
+            currencyStackView.accessibilityIdentifier = currencyStackViewAccessibilityIdentifier
+        }
+    }
+    
+    private var currencyInputDelegate = CurrencyInputDelegate()
+    private var currencyCode: String!
+    private let currencySymbolGenerator = CurrencySymbolGenerator()
+    
+    // MARK: - UI Properties
     
     @UsingAutoLayout private var textField: UITextField = {
         let textField = UITextField()
@@ -29,14 +52,21 @@ class CurrencyInputView: UIView, Themed {
         return stackView
     }()
     
-    @UsingAutoLayout private var currencyLogoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    @UsingAutoLayout private var currencySymbolLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.layer.masksToBounds = true
+        label.font = UIFont.systemFont(ofSize: 32, weight: .medium)
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        return label
     }()
     
     @UsingAutoLayout private var currencyCodeLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -46,12 +76,6 @@ class CurrencyInputView: UIView, Themed {
         imageView.tintColor = .darkGray
         return imageView
     }()
-    
-    // MARK: - Properties
-    var arrowTappedHandler: (() -> Void)?
-    var numberValueChangedHandler: ((Double) -> Void)?
-    private var currencyInputDelegate = CurrencyInputDelegate()
-    var theme: ThemeProvider = AppTheme.shared
     
     // MARK: - Initialization
     
@@ -70,9 +94,13 @@ class CurrencyInputView: UIView, Themed {
         setupConstraints()
         applyBorder()
         setupGestureRecognizer()
+        applyTheme()
         currencyInputDelegate.valueChangedHandler = { [weak self] value in
+            guard let self else {
+                return
+            }
             let doubleValue = Double(value) ?? 0.0
-            self?.numberValueChangedHandler?(doubleValue)
+            self.numberValueChangedHandler?(doubleValue, self.currencyCode)
         }
     }
     
@@ -84,34 +112,23 @@ class CurrencyInputView: UIView, Themed {
         
         textField.delegate = currencyInputDelegate
         
-        currencyStackView.addArrangedSubview(currencyLogoImageView)
+        currencyStackView.addArrangedSubview(currencySymbolLabel)
         currencyStackView.addArrangedSubview(currencyCodeLabel)
         currencyStackView.addArrangedSubview(arrowDownImageView)
         
-        applyTheme(theme: theme)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // TextField
             textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             textField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
-            
-            // Currency Stack View
-            // setup resistance for currencyStackView
+
             currencyStackView.leadingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 8),
             currencyStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            currencyStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            currencyStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             currencyStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            currencyCodeLabel.widthAnchor.constraint(equalToConstant: 44),
-            currencyLogoImageView.widthAnchor.constraint(equalTo: currencyLogoImageView.heightAnchor),
-            arrowDownImageView.widthAnchor.constraint(equalToConstant: 16)
+            currencyStackView.heightAnchor.constraint(equalTo: textField.heightAnchor),
         ])
-        
-        textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        textField.setContentHuggingPriority(.defaultLow, for: .vertical)
-        currencyStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        currencyStackView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     }
     
     private func applyBorder() {
@@ -122,10 +139,11 @@ class CurrencyInputView: UIView, Themed {
     
     private func setupGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
-        addGestureRecognizer(tapGesture)
+        currencyStackView.isUserInteractionEnabled = true
+        currencyStackView.addGestureRecognizer(tapGesture)
     }
     
-    // MARK: - Event Handler
+    // MARK: - User Interaction
     
     @objc private func handleTapGesture() {
         arrowTappedHandler?()
@@ -133,19 +151,24 @@ class CurrencyInputView: UIView, Themed {
     
     // MARK: - Public Methods
     
-    func setupCurrency(code: String, logo: UIImage?) {
+    func setupCurrency(code: String) {
+        currencyCode = code
         currencyCodeLabel.text = code
-        currencyLogoImageView.image = logo
+        let currencySymbol = currencySymbolGenerator.getCurrencySymbol(for: code)
+        
+        currencySymbolLabel.text = currencySymbol.symbol
     }
     
     func setupTextfieldValue(value: String) {
         textField.text = value
     }
     
-    // MARK: - Themed methods
+    // MARK: - Themed Protocol Methods
     
-    func applyTheme(theme: ThemeProvider) {
+    func applyTheme() {
         textField.font = theme.inputFont
         currencyCodeLabel.font = theme.switcherFont
     }
 }
+
+

@@ -8,8 +8,7 @@
 import UIKit
 
 protocol HomeRoutable {
-    init(view: HomeVC)
-    func navigateCurrenciesList(dataStore: any DataStore)
+    func navigateCurrenciesList(dataStore: CurrencyModuleDataStore)
 }
 
 final class HomeRouter: HomeRoutable {
@@ -24,10 +23,10 @@ final class HomeRouter: HomeRoutable {
         self.view = view
     }
     
-    // MARK: - HomeRouterProtocol methods
+    // MARK: - HomeRoutable methods
     
-    func navigateCurrenciesList(dataStore: any DataStore) {
-        let currenciesListVC = CurrenciesListBuilder.build(theme: AppTheme.shared, dataStore: dataStore)
+    func navigateCurrenciesList(dataStore: CurrencyModuleDataStore) {
+        let currenciesListVC = CurrenciesListBuilder.build(dataStore: dataStore)
         view?.present(currenciesListVC, animated: true)
     }
     

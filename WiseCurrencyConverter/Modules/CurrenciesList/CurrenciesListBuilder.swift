@@ -10,10 +10,8 @@ import UIKit
 final class CurrenciesListBuilder {
     
     static func build(
-        theme: ThemeProvider,
-        dataStore: any DataStore
+        dataStore: CurrencyModuleDataStore
     ) -> CurrenciesListVC {
-        typealias T = String
         let view = CurrenciesListVC()
         let router = CurrenciesListRouter(view: view)
         let networkManager = OpenExchangeRatesManager()
@@ -24,8 +22,6 @@ final class CurrenciesListBuilder {
         )
         presenter.dataStore = dataStore
         view.presenter = presenter
-        
         return view
     }
-    
 }

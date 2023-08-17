@@ -7,18 +7,23 @@
 
 import UIKit
 
-protocol CurrenciesListRouterProtocol {
-    init(view: CurrenciesListVC)
+protocol CurrenciesListRoutable {
     func dismissList()
 }
 
-final class CurrenciesListRouter: CurrenciesListRouterProtocol {
+final class CurrenciesListRouter: CurrenciesListRoutable {
+    
+    // MARK: - Properties
     
     private weak var view: CurrenciesListVC?
+    
+    // MARK: - Init
     
     init(view: CurrenciesListVC) {
         self.view = view
     }
+    
+    // MARK: - CurrenciesListRoutable Protocol Methods
     
     func dismissList() {
         view?.dismiss(animated: true)

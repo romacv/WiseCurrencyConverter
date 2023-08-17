@@ -8,12 +8,10 @@
 import UIKit
 
 class BottomButton: UIButton, Themed {
-    // MARK: - ButtonState
     
-    enum ButtonState {
-        case enabled
-        case disabled
-    }
+    // MARK: - Themed Protocol Properties
+    
+    var theme: ThemeProvider = AppTheme.shared
     
     // MARK: - Properties
     
@@ -21,7 +19,14 @@ class BottomButton: UIButton, Themed {
     
     private static let cornerRadius: CGFloat = 32
     private var tapAnimator: UIViewPropertyAnimator?
-    var theme: ThemeProvider = AppTheme.shared
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
+    
+    // MARK: - ButtonState
+    
+    enum ButtonState {
+        case enabled
+        case disabled
+    }
     
     // MARK: - Initializers
     
@@ -37,12 +42,15 @@ class BottomButton: UIButton, Themed {
     private func commonInit() {
         setupUI()
         setupAction()
+        applyTheme()
+        setupActivityIndicator()
     }
+    
+    // MARK: - Setup Methods
     
     private func setupUI() {
         layer.cornerRadius = BottomButton.cornerRadius
         clipsToBounds = true
-        applyTheme(theme: theme)
     }
     
     private func setupAction() {
@@ -58,6 +66,17 @@ class BottomButton: UIButton, Themed {
         addAction(cancelAction, for: [.touchUpInside, .touchDragExit, .touchCancel])
     }
     
+    private func setupActivityIndicator() {
+        addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+    
+    // MARK: - Animation
+    
     private func startTapAnimation() {
         tapAnimator?.stopAnimation(true)
         tapAnimator = UIViewPropertyAnimator(duration: 0.15, curve: .easeInOut) { [weak self] in
@@ -70,7 +89,6 @@ class BottomButton: UIButton, Themed {
     private func stopTapAnimation() {
         tapAnimator?.stopAnimation(true)
         tapAnimator = nil
-        
         UIView.animate(withDuration: 0.1) { [weak self] in
             self?.transform = .identity
             self?.alpha = 1.0
@@ -97,11 +115,15 @@ class BottomButton: UIButton, Themed {
         layer.cornerRadius = isRounded ? BottomButton.cornerRadius : 0
     }
     
-    // MARK: - Themed methods
+    func loading(isActive: Bool) {
+        isActive ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
     
-    func applyTheme(theme: ThemeProvider) {
-        self.theme = theme
+    // MARK: - Themed Protocol Methods
+    
+    func applyTheme() {
         let font = theme.buttonFont
         titleLabel?.font = font
     }
+    
 }

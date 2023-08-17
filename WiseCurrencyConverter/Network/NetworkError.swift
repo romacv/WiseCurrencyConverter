@@ -9,7 +9,7 @@ import Foundation
 
 enum NetworkError: Error {
     case invalidURL
-        case networkError
-        case parsingError
-        case conversionError
+    case networkError
+    case parsingError
+    case conversionError
 }

@@ -25,7 +25,7 @@ class CurrencyInputDelegate: NSObject, UITextFieldDelegate {
     
     private func updateText(text: String, range: NSRange, replacementString string: String) -> String {
         let updatedText = (text as NSString).replacingCharacters(in: range, with: string)
-        let pattern = "^\\d{0,12}(\\.\\d{0,2})?$"
+        let pattern = "^\\d{0,9}(\\.\\d{0,2})?$"
         
         guard let regex = try? NSRegularExpression(pattern: pattern, options: .anchorsMatchLines) else {
             return text

@@ -9,13 +9,10 @@ import Foundation
 
 protocol CurrencyConverterNetworkManager {
     
-    var baseURL: String { get set }
-    var appId: String { get set }
     func convertCurrency(
         from: String,
         to: String,
-        amount: Double,
-        completion: @escaping (Result<Double, Error>) -> Void
-    )
-    func availableCurrencies() async throws -> [String: String]
+        amount: Double
+    ) async throws -> Double
+    func availableCurrencies() async throws -> [Currency]
 }
