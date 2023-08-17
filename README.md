@@ -3,3 +3,7 @@ This project is a currency converter application built in Swift, showcasing adva
 It adopts the Model-View-Presenter (MVP) architecture, ensuring a clean and organized code structure. 
 Proficiency is demonstrated in Swift programming, UI design, API handling, efficient data management, and comprehensive unit testing. 
 The use of MVP contributes to better code modularity and easier testing, enhancing code reliability.
+<p align="center">
+  <img src="Screenshots/1.png" width="350" title="screenshot 1">
+  <img src="Screenshots/2.png" width="350" title="screenshot 2">
+</p>
