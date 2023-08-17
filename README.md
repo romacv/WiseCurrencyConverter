@@ -1,8 +1,5 @@
 # WiseCurrencyConverter
-This project is a currency converter application built in Swift, showcasing advanced iOS development practices. 
-It adopts the Model-View-Presenter (MVP) architecture, ensuring a clean and organized code structure. 
-Proficiency is demonstrated in Swift programming, UI design, API handling, efficient data management, and comprehensive unit testing. 
-The use of MVP contributes to better code modularity and easier testing, enhancing code reliability.
+This project is a native iOS currency converter app, inspired by Wise app's UI design. It showcases advanced practices and uses the MVP architecture for clean, modular code. It uses the openexchangerates.org API (replaceable via Dependency Injection), demonstrating proficiency in Swift programming, UI design, API handling, and data management. Comprehensive unit testing and UI testing are implemented, contributing to high code reliability and user experience.
 <p align="center">
   <img src="Screenshots/1.png" width="350" title="screenshot 1">
   <img src="Screenshots/2.png" width="350" title="screenshot 2">
