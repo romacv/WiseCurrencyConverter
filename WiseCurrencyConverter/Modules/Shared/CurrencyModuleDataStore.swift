@@ -16,11 +16,11 @@ class CurrencyModuleDataStore: DataStore {
     var selectedElement: Currency?
     var elements: [Currency] = []
     var filteredElements: [Currency] = []
-    var dataUpdated: (() -> Void)?
+    var onDataUpdated: (() -> Void)?
     
     // MARK: - Methods
     
     func updateData() {
-        dataUpdated?()
+        onDataUpdated?()
     }
 }

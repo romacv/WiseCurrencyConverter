@@ -10,7 +10,7 @@ import UIKit
 
 class CurrencyInputDelegate: NSObject, UITextFieldDelegate {
     
-    var valueChangedHandler: ((String) -> Void)?
+    var onValueChanged: ((String) -> Void)?
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else {
@@ -19,7 +19,7 @@ class CurrencyInputDelegate: NSObject, UITextFieldDelegate {
         
         let updatedText = updateText(text: text, range: range, replacementString: string)
         textField.text = updatedText
-        valueChangedHandler?(updatedText)
+        onValueChanged?(updatedText)
         return false
     }
     

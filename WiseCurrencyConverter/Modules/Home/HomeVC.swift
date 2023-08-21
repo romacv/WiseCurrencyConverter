@@ -93,6 +93,10 @@ final class HomeVC: UIViewController, HomeView, Themed {
         applyTheme()
     }
     
+    deinit {
+        removeKeyboardObservers()
+    }
+    
     // MARK: - HomeView Protocol
     
     func refreshCurrencies(fromCurrency: String, toCurrency: String) {
@@ -134,8 +138,19 @@ final class HomeVC: UIViewController, HomeView, Themed {
     // MARK: - Private methods
     
     private func setupUI() {
+        setupViewBackground()
+        addSubviews()
+        setupConstraints()
+        setupRecalculateButton()
+        setupCurrencyInputViews()
+        setupDefaultCurrencies()
+    }
+
+    private func setupViewBackground() {
         view.backgroundColor = .white
-        recalculateButton.setupText("Recalculate")
+    }
+
+    private func addSubviews() {
         view.addSubview(titleLabel)
         view.addSubview(fromLabel)
         view.addSubview(fromCurrencyInputView)
@@ -143,11 +158,17 @@ final class HomeVC: UIViewController, HomeView, Themed {
         view.addSubview(toCurrencyInputView)
         view.addSubview(updatedAtLabel)
         view.addSubview(recalculateButton)
-        setupConstraints()
+    }
+
+    private func setupRecalculateButton() {
+        recalculateButton.setupText("Recalculate")
         recalculateButton.updateAppearance(for: .enabled, isRounded: true)
         recalculateButton.buttonTappedHandler = { [weak self] in
             self?.presenter.recalculateButtonTapped()
         }
+    }
+
+    private func setupCurrencyInputViews() {
         fromCurrencyInputView.arrowTappedHandler = { [weak self] in
             self?.presenter.fromCurrencyArrowTapped()
         }
@@ -160,6 +181,9 @@ final class HomeVC: UIViewController, HomeView, Themed {
         toCurrencyInputView.numberValueChangedHandler = { [weak self] amount, code in
             self?.presenter.toCurrencyValueChanged(amount: amount, code: code)
         }
+    }
+
+    private func setupDefaultCurrencies() {
         fromCurrencyInputView.setupCurrency(code: "USD")
         toCurrencyInputView.setupCurrency(code: "EUR")
     }
@@ -203,8 +227,19 @@ final class HomeVC: UIViewController, HomeView, Themed {
         ])
     }
     
-    // MARK: - Private Methods
-    private func addKeyboardObservers() {
+    // MARK: Themed Protocol methods
+    func applyTheme() {
+        titleLabel.font = theme.titleFont
+        fromLabel.font = theme.hintFont
+        toLabel.font = theme.hintFont
+        updatedAtLabel.font = theme.bodyFont
+    }
+}
+
+// MARK: - Keyboard handling methods
+extension HomeVC {
+    
+    func addKeyboardObservers() {
         addKeyboardObservers(
             keyboardWillShow: { [weak self] keyboardFrame in
                 guard let self = self else { return }
@@ -245,13 +280,5 @@ final class HomeVC: UIViewController, HomeView, Themed {
                 }
             }
         )
-    }
-    
-    // MARK: Themed Protocol methods
-    func applyTheme() {
-        titleLabel.font = theme.titleFont
-        fromLabel.font = theme.hintFont
-        toLabel.font = theme.hintFont
-        updatedAtLabel.font = theme.bodyFont
     }
 }

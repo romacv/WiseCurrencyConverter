@@ -22,37 +22,20 @@ final class HomePresenter: HomePresentable {
     
     typealias CurrencyAmount = Double
     typealias CurrencyCode = String
+    enum ExchangeDirection {
+        case to
+        case from
+    }
     
     // MARK: Properties
     var dataStore: CurrencyModuleDataStore? {
         didSet {
-            dataStore?.dataUpdated = { [weak self] in
-                guard let self else {
-                    return
-                }
-                guard let selectedElement = dataStore?.selectedElement else {
-                    return
-                }
-                switch exchangeDirection {
-                case .to:
-                    self.toCurrency = selectedElement.currencyCode
-                case .from:
-                    self.fromCurrency = selectedElement.currencyCode
-                }
-                self.view?.refreshCurrencies(fromCurrency: self.fromCurrency, toCurrency: self.toCurrency)
-                self.convertRequest()
-            }
+            setupDataStore()
         }
     }
     private weak var view: HomeView?
     private var router: HomeRoutable
     private var networkManager: CurrencyConverterNetworkManager?
-    
-    
-    enum ExchangeDirection {
-        case to
-        case from
-    }
     private var exchangeDirection = ExchangeDirection.from
     private var fromAmount: CurrencyAmount = 0.0
     private var toAmount: CurrencyAmount = 0.0
@@ -149,5 +132,31 @@ final class HomePresenter: HomePresentable {
             }
         }
         
+    }
+    
+    // MARK: - Private Methods
+    
+    private func setupDataStore() {
+        dataStore?.onDataUpdated = { [weak self] in
+            self?.handleDataStoreUpdated()
+        }
+    }
+
+    private func handleDataStoreUpdated() {
+        guard let selectedElement = dataStore?.selectedElement else {
+            return
+        }
+        updateCurrencies(with: selectedElement)
+        view?.refreshCurrencies(fromCurrency: self.fromCurrency, toCurrency: self.toCurrency)
+        convertRequest()
+    }
+
+    private func updateCurrencies(with element: Currency) {
+        switch exchangeDirection {
+        case .to:
+            self.toCurrency = element.currencyCode
+        case .from:
+            self.fromCurrency = element.currencyCode
+        }
     }
 }

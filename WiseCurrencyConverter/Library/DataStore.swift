@@ -12,7 +12,7 @@ protocol DataStore: AnyObject {
     associatedtype E
     var selectedElement: E? { get set }
     var elements: [E] { get set }
-    var dataUpdated: (() -> Void)? { get set }
+    var onDataUpdated: (() -> Void)? { get set }
 
     // MARK: - Methods
     

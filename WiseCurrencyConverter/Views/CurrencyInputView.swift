@@ -28,7 +28,7 @@ class CurrencyInputView: UIView, Themed {
     }
     var currencyStackViewAccessibilityIdentifier: String? {
         didSet {
-            currencyStackView.accessibilityIdentifier = currencyStackViewAccessibilityIdentifier
+            stackView.accessibilityIdentifier = currencyStackViewAccessibilityIdentifier
         }
     }
     
@@ -45,7 +45,7 @@ class CurrencyInputView: UIView, Themed {
         return textField
     }()
     
-    @UsingAutoLayout private var currencyStackView: UIStackView = {
+    @UsingAutoLayout private var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
@@ -95,7 +95,7 @@ class CurrencyInputView: UIView, Themed {
         applyBorder()
         setupGestureRecognizer()
         applyTheme()
-        currencyInputDelegate.valueChangedHandler = { [weak self] value in
+        currencyInputDelegate.onValueChanged = { [weak self] value in
             guard let self else {
                 return
             }
@@ -108,13 +108,13 @@ class CurrencyInputView: UIView, Themed {
     
     private func setupViews() {
         addSubview(textField)
-        addSubview(currencyStackView)
+        addSubview(stackView)
         
         textField.delegate = currencyInputDelegate
         
-        currencyStackView.addArrangedSubview(currencySymbolLabel)
-        currencyStackView.addArrangedSubview(currencyCodeLabel)
-        currencyStackView.addArrangedSubview(arrowDownImageView)
+        stackView.addArrangedSubview(currencySymbolLabel)
+        stackView.addArrangedSubview(currencyCodeLabel)
+        stackView.addArrangedSubview(arrowDownImageView)
         
     }
     
@@ -123,11 +123,12 @@ class CurrencyInputView: UIView, Themed {
             textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             textField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
 
-            currencyStackView.leadingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 8),
-            currencyStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            currencyStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            currencyStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            currencyStackView.heightAnchor.constraint(equalTo: textField.heightAnchor),
+            stackView.leadingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 8),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            stackView.heightAnchor.constraint(equalTo: textField.heightAnchor),
+            stackView.widthAnchor.constraint(equalToConstant: 100),
         ])
     }
     
@@ -139,8 +140,8 @@ class CurrencyInputView: UIView, Themed {
     
     private func setupGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
-        currencyStackView.isUserInteractionEnabled = true
-        currencyStackView.addGestureRecognizer(tapGesture)
+        stackView.isUserInteractionEnabled = true
+        stackView.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - User Interaction

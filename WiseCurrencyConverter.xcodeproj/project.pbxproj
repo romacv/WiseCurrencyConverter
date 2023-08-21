@@ -18,11 +18,13 @@
 		EA40EC482A8DED2B0033D86E /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA40EC472A8DED2B0033D86E /* Double+Extension.swift */; };
 		EA40EC4A2A8DEE1A0033D86E /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA40EC492A8DEE1A0033D86E /* Date+Extension.swift */; };
 		EA40EC4C2A8DF3870033D86E /* WiseCurrencyConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA40EC4B2A8DF3870033D86E /* WiseCurrencyConverterTests.swift */; };
+		EA6043602A938FEB00656213 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA60435F2A938FEB00656213 /* NetworkManager.swift */; };
+		EA6043622A93902000656213 /* ConversionRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6043612A93902000656213 /* ConversionRate.swift */; };
 		EA73E4D12A8B52C600142732 /* CurrencyModuleDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA73E4D02A8B52C600142732 /* CurrencyModuleDataStore.swift */; };
 		EA73E4D32A8B56E200142732 /* CurrencySymbolImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA73E4D22A8B56E200142732 /* CurrencySymbolImageGenerator.swift */; };
 		EA73E4D52A8B598000142732 /* currency-data.json in Resources */ = {isa = PBXBuildFile; fileRef = EA73E4D42A8B598000142732 /* currency-data.json */; };
 		EA8E02D32A8507F300E6504E /* CurrencyInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8E02D22A8507F300E6504E /* CurrencyInputView.swift */; };
-		EAA7865F2A8BBEEB00A6E295 /* APIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7865E2A8BBEEB00A6E295 /* APIEndpoints.swift */; };
+		EAA7865F2A8BBEEB00A6E295 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7865E2A8BBEEB00A6E295 /* API.swift */; };
 		EAA936C32A8B355C00FF582D /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA936C22A8B355C00FF582D /* CurrencyCell.swift */; };
 		EAA936C52A8B3C1700FF582D /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA936C42A8B3C1700FF582D /* Currency.swift */; };
 		EAAC4F312A889D6E00A54379 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAC4F302A889D6E00A54379 /* BottomButton.swift */; };
@@ -75,11 +77,13 @@
 		EA40EC472A8DED2B0033D86E /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		EA40EC492A8DEE1A0033D86E /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		EA40EC4B2A8DF3870033D86E /* WiseCurrencyConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiseCurrencyConverterTests.swift; sourceTree = "<group>"; };
+		EA60435F2A938FEB00656213 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		EA6043612A93902000656213 /* ConversionRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionRate.swift; sourceTree = "<group>"; };
 		EA73E4D02A8B52C600142732 /* CurrencyModuleDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModuleDataStore.swift; sourceTree = "<group>"; };
 		EA73E4D22A8B56E200142732 /* CurrencySymbolImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbolImageGenerator.swift; sourceTree = "<group>"; };
 		EA73E4D42A8B598000142732 /* currency-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "currency-data.json"; sourceTree = "<group>"; };
 		EA8E02D22A8507F300E6504E /* CurrencyInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyInputView.swift; sourceTree = "<group>"; };
-		EAA7865E2A8BBEEB00A6E295 /* APIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoints.swift; sourceTree = "<group>"; };
+		EAA7865E2A8BBEEB00A6E295 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		EAA936C22A8B355C00FF582D /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
 		EAA936C42A8B3C1700FF582D /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		EAAC4F302A889D6E00A54379 /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
@@ -146,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				EAA7865B2A8BB35D00A6E295 /* Application */,
-				EAAC4F3A2A88A64A00A54379 /* Helpers */,
+				EAAC4F3A2A88A64A00A54379 /* Library */,
 				EAC650C32A85072C003545E7 /* Modules */,
 				EAA7865C2A8BB38000A6E295 /* Network */,
 				EAA7865A2A8BB34D00A6E295 /* Resources */,
@@ -198,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				EAA936C42A8B3C1700FF582D /* Currency.swift */,
+				EA6043612A93902000656213 /* ConversionRate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 			children = (
 				EAAC4F432A88EFC500A54379 /* CurrencyConverterNetworkManager.swift */,
 				EAAC4F452A88F03A00A54379 /* OpenExchangeRatesManager.swift */,
+				EA60435F2A938FEB00656213 /* NetworkManager.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -235,7 +241,7 @@
 			children = (
 				EA40EC4D2A8DF3B50033D86E /* Models */,
 				EA40EC4E2A8DF3BF0033D86E /* NetworkManager */,
-				EAA7865E2A8BBEEB00A6E295 /* APIEndpoints.swift */,
+				EAA7865E2A8BBEEB00A6E295 /* API.swift */,
 				EAAC4F492A88F09700A54379 /* NetworkError.swift */,
 			);
 			path = Network;
@@ -261,7 +267,7 @@
 			path = Appearance;
 			sourceTree = "<group>";
 		};
-		EAAC4F3A2A88A64A00A54379 /* Helpers */ = {
+		EAAC4F3A2A88A64A00A54379 /* Library */ = {
 			isa = PBXGroup;
 			children = (
 				EAAC4F372A88A23700A54379 /* Appearance */,
@@ -271,7 +277,7 @@
 				EA73E4D22A8B56E200142732 /* CurrencySymbolImageGenerator.swift */,
 				EAAC4F412A88D52100A54379 /* DataStore.swift */,
 			);
-			path = Helpers;
+			path = Library;
 			sourceTree = "<group>";
 		};
 		EAC650C22A84F5FA003545E7 /* CurrenciesList */ = {
@@ -441,8 +447,10 @@
 				EAAC4F462A88F03A00A54379 /* OpenExchangeRatesManager.swift in Sources */,
 				EAAC4F4A2A88F09700A54379 /* NetworkError.swift in Sources */,
 				EA03C90F2A84F566006BE017 /* HomePresenter.swift in Sources */,
+				EA6043602A938FEB00656213 /* NetworkManager.swift in Sources */,
+				EA6043622A93902000656213 /* ConversionRate.swift in Sources */,
 				EAC650C12A84F5F4003545E7 /* CurrenciesListRouter.swift in Sources */,
-				EAA7865F2A8BBEEB00A6E295 /* APIEndpoints.swift in Sources */,
+				EAA7865F2A8BBEEB00A6E295 /* API.swift in Sources */,
 				EAA936C52A8B3C1700FF582D /* Currency.swift in Sources */,
 				EAAC4F312A889D6E00A54379 /* BottomButton.swift in Sources */,
 				EAAC4F342A88A08000A54379 /* ThemeProvider.swift in Sources */,
@@ -626,10 +634,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WiseCurrencyConverter/Application/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "${APP_DISPLAY_NAME}";
+				INFOPLIST_KEY_CFBundleDisplayName = WiseConverter;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -656,10 +665,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WiseCurrencyConverter/Application/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "${APP_DISPLAY_NAME}";
+				INFOPLIST_KEY_CFBundleDisplayName = WiseConverter;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

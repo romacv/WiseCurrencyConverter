@@ -8,42 +8,44 @@
 import Foundation
 
 class OpenExchangeRatesManager: CurrencyConverterNetworkManager {
-    
     var appId: String = "8cf13d8c00ec4b9a9ad45994bd3c09eb"
-    
+    let networkManager = NetworkManager()
+
     func convertCurrency(from: String, to: String, amount: Double) async throws -> Double {
-        let url = URL(string: APIEndpoints.url(for: .latest))!.appending(
-                queryItems: [
-                    URLQueryItem(name: "app_id", value: appId)
-                ]
-            )
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            guard let rates = json?["rates"] as? [String: Double],
-                  let fromRate = rates[from],
-                  let toRate = rates[to] else {
-                throw NSError(
-                    domain: "",
-                    code: 100,
-                    userInfo: [NSLocalizedDescriptionKey: "Could not find rates for the currencies"]
-                )
-            }
-            let conversionRate = toRate / fromRate
-            let convertedAmount = amount * conversionRate
-            return convertedAmount
+        let endpoint = API.Factory.createLatestEndpoint()
+        guard let url = URL(string: endpoint.url) else {
+            throw NetworkError.invalidURL
+        }
+        let conversionData: ConversionRate
+        do {
+            let url = url.appending(queryItems: [URLQueryItem(name: "app_id", value: appId)])
+            conversionData = try await networkManager.fetchData(from: url, shouldCancelCurrentTask: true)
+        } catch {
+            throw NetworkError.parsingError
+        }
         
+        guard let fromRate = conversionData.rates[from],
+              let toRate = conversionData.rates[to] else {
+            throw NetworkError.conversionError
+        }
+        
+        let rate = toRate / fromRate
+        let convertedAmount = amount * rate
+        return convertedAmount
     }
 
     func availableCurrencies() async throws -> [Currency] {
-        let url = URL(string: APIEndpoints.url(for: .currencies))!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decoder = JSONDecoder()
-        let currencyList = try decoder.decode(
-            [String: String].self,
-            from: data
-        ).map {
-            Currency(currencyCode: $0.key, currencyName: $0.value)
+        let endpoint = API.Factory.createCurrenciesEndpoint()
+        guard let url = URL(string: endpoint.url) else {
+            throw NetworkError.invalidURL
         }
-        return currencyList
+        let currencyDict: [String: String]
+        do {
+            currencyDict = try await networkManager.fetchData(from: url)
+        } catch {
+            throw NetworkError.parsingError
+        }
+        
+        return currencyDict.map { Currency(currencyCode: $0.key, currencyName: $0.value) }
     }
 }
