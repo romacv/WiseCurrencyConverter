@@ -10,11 +10,11 @@ import XCTest
 
 class MockCurrencyConverterNetworkManager: CurrencyConverterNetworkManager {
     func convertCurrency(from: String, to: String, amount: Double) async throws -> Double {
-        return 1.1 // Return dummy conversion rate
+        1.1 // Return dummy conversion rate
     }
 
     func availableCurrencies() async throws -> [Currency] {
-        return [] // Return empty array or dummy currency array
+        [] // Return empty array or dummy currency array
     }
 }
 

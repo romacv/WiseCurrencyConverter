@@ -12,6 +12,6 @@ struct Currency: Codable, Equatable {
     let currencyName: String
     
     static func == (lhs: Currency, rhs: Currency) -> Bool {
-        return lhs.currencyCode == rhs.currencyCode
+        lhs.currencyCode == rhs.currencyCode
     }
 }

@@ -14,23 +14,23 @@ struct AppTheme: ThemeProvider {
     
     // Colors
     var mainBackgroundColor: UIColor {
-        return .white
+        .white
     }
     
     var enabledBackgroundColor: UIColor {
-        return UIColor(red: 50/255, green: 205/255, blue: 50/255, alpha: 1)
+        UIColor(red: 50/255, green: 205/255, blue: 50/255, alpha: 1)
     }
     
     var disabledBackgroundColor: UIColor {
-        return .gray
+        .gray
     }
     
     var enabledTextColor: UIColor {
-        return .black
+        .black
     }
     
     var disabledTextColor: UIColor {
-        return .gray.withAlphaComponent(0.5)
+        .gray.withAlphaComponent(0.5)
     }
     
     // Fonts
@@ -41,15 +41,15 @@ struct AppTheme: ThemeProvider {
     }
     
     var hintFont: UIFont {
-        return UIFont.systemFont(ofSize: 14, weight: .light)
+        UIFont.systemFont(ofSize: 14, weight: .light)
     }
     
     var switcherFont: UIFont {
-        return UIFont.boldSystemFont(ofSize: 20)
+        UIFont.boldSystemFont(ofSize: 20)
     }
     
     var bodyFont: UIFont {
-        return UIFont.systemFont(ofSize: 14, weight: .regular)
+        UIFont.systemFont(ofSize: 14, weight: .regular)
     }
     
     var inputFont: UIFont {
@@ -59,11 +59,11 @@ struct AppTheme: ThemeProvider {
     }
     
     var buttonFont: UIFont {
-        return UIFont.systemFont(ofSize: 18, weight: .semibold)
+        UIFont.systemFont(ofSize: 18, weight: .semibold)
     }
     
     var symbolFont: UIFont {
-        return UIFont.systemFont(ofSize: 44, weight: .bold)
+        UIFont.systemFont(ofSize: 44, weight: .bold)
     }
     
 }

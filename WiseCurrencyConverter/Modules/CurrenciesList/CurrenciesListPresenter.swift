@@ -66,11 +66,11 @@ final class CurrenciesListPresenter: CurrenciesListPresentable {
     }
     
     func items() -> [Currency] {
-        return dataStore?.filteredElements ?? []
+        dataStore?.filteredElements ?? []
     }
     
     func itemsCount() -> Int {
-        return dataStore?.filteredElements.count ?? 0
+        dataStore?.filteredElements.count ?? 0
     }
     
     func didChangeSearchText(searchText: String) {
